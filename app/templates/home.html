@@ -1,0 +1,164 @@
+{% extends "base.html" %} {% block title %}MazeGen{% endblock %} {% block
+content %}
+
+{% with messages = get_flashed_messages() %} {% if messages %} {% for
+message in messages %}
+<p>{{message}}</p>
+{% endfor %} {% endif %}{% endwith %}
+<hr />
+<h1>Maze Generator</h1>
+<hr />
+<form action="#" , method="post">
+  <div>
+    <h2>Options</h2>
+    <div>
+      <label>Tile Size</label>
+      {% if maze %}
+      <input type="number" name="tile" placeholder="10-100" min="1" max="100" value="{{ maze.tileSize }}" required/>
+      {% else %}
+        <input type="number" name="tile" placeholder="10-100" min="1" max="100" value="10" required/>
+      {% endif %}
+    </div>
+    <div>
+      <label>Width</label>
+      {% if maze %}
+      <input type="number" name="width" placeholder="1-100" min="1" max="100" value="{{ maze.width }}" required/>
+      {% else %}
+        <input type="number" name="width" placeholder="1-100" min="1" max="100" value="20" required/>
+      {% endif %}
+    </div>
+    <div>
+      <label>Height</label>
+      {% if maze %}
+      <input
+        type="number"
+        name="height"
+        placeholder="1-100"
+        min="1"
+        max="100"
+        value="{{ maze.height }}"
+        required
+      />
+      {% else %}
+      <input
+        type="number"
+        name="height"
+        placeholder="1-100"
+        min="1"
+        max="100"
+        value="20"
+        required
+      />
+      {% endif %}
+    </div>
+    <div>
+      <label>Start Tile</label>
+      {% if maze %}
+      <input type="number" name="startx" placeholder="X: 1-Width" value="{{ maze.start[0] + 1}}" required/>
+      <input type="number" name="starty" placeholder="Y: 1-Height" value="{{ maze.start[1] + 1}}" required/>
+      {% else %}
+      <input type="number" name="startx" placeholder="X: 1-Width" value="1" required/>
+      <input type="number" name="starty" placeholder="Y: 1-Height" value="1" required/>
+
+      {% endif %}
+    </div>
+    <div>
+      <label>End Tile</label>
+      {% if maze %}
+      <input type="number" name="endx" placeholder="X: 1-Width" value="{{ maze.end[0] + 1}}" required/>
+      <input type="number" name="endy" placeholder="Y: 1-Height" value="{{ maze.end[1] + 1}}" required/>
+      {% else %}
+      <input type="number" name="endx" placeholder="X: 1-Width" value="20" required/>
+      <input type="number" name="endy" placeholder="Y: 1-Height" value="20" required/>
+
+      {% endif %}
+    </div>
+    <div>
+      <label>Line</label>
+      <input type="radio" name="wall" value="line" checked required/>
+      <label>Solid</label>
+      <input type="radio" name="wall" value="solid" required/>
+    </div>
+  </div>
+  <hr />
+
+  <div>
+    <h2>Colors</h2>
+    <div>
+      <label>Walls</label>
+      <!-- <input -->
+      <!--   type="text" -->
+      <!--   name="wall_color" -->
+      <!--   placeholder="#000000" -->
+      <!--   value="#000000" -->
+      <!--   required -->
+      <!-- /> -->
+      <input type="color" name="wall_color" value="#000000" />
+    </div>
+    <div>
+      <label>Background</label>
+      <!-- <input -->
+      <!--   type="text" -->
+      <!--   name="background_color" -->
+      <!--   placeholder="#ffffff" -->
+      <!--   value="#ffffff" -->
+      <!--   required -->
+      <!-- /> -->
+      <input type="color" name="bg_color" value="#ffffff"/>
+    </div>
+    <div>
+      <label>Start</label>
+      <!-- <input -->
+      <!--   type="text" -->
+      <!--   name="start_color" -->
+      <!--   placeholder="#2ecc71" -->
+      <!--   value="#2ecc71" -->
+      <!--   required -->
+      <!-- /> -->
+      <input type="color" name="start_color" value="#2ecc71" />
+    </div>
+    <div>
+      <label>End</label>
+      <!-- <input -->
+      <!--   type="text" -->
+      <!--   name="end_color" -->
+      <!--   placeholder="#e74c3c" -->
+      <!--   value="#e74c3c" -->
+      <!--   required -->
+      <!-- /> -->
+      <input type="color" name="end_color" value="#e74c3c" />
+    </div>
+    <div>
+      <label>Solve</label>
+      <!-- <input -->
+      <!--   type="text" -->
+      <!--   name="end_color" -->
+      <!--   placeholder="#3498db" -->
+      <!--   value="#3498db" -->
+      <!--   required -->
+      <!-- /> -->
+      <input type="color" name="solve_color" value="#3498db" />
+    </div>
+  </div>
+
+  <hr />
+  <div>
+    <div>
+      <input type="submit" name="generate" value="Generate" />
+      {% if maze %}
+      <input type="submit" name="solve" value="Solve" />
+      <input type="submit" name="download" value="Download" />
+      {% endif %}
+    </div>
+  </div>
+</form>
+{% if maze %}
+{% if image == "maze" %}
+<img src="{{ url_for('static', filename='maze.png')}}"/>
+{% endif %}
+{% if image == "solve" %}
+<img src="{{ url_for('static', filename='mazeSolve.png')}}"/>
+{% endif %}
+{% endif %}
+
+{% endblock %}
